@@ -1,10 +1,10 @@
 {
     "name": "Meal planner",
-    "short_name": "Meal lanner",
+    "short_name": "Meal planner",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
+    "background_color": "#f44336",
+    "theme_color": "#f44336",
     "description": "Meal planner app",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
