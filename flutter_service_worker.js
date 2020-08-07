@@ -3,18 +3,18 @@ const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
-  "main.dart.js": "2345cda15e2abadb11aec17c84250d42",
+  "icons/Icon-192.png": "89a01673abf5be880dec50d00f62c093",
+"icons/Icon-512.png": "6f0677aad7b319717e4967a335aa8cba",
 "favicon.png": "539c16a57cf8ae6b25834f8b504d310e",
+"main.dart.js": "90427eab47fd0e627c79c4a5e6182ab3",
+"index.html": "a4ec9e1f129106a31ce350ec737f34b0",
+"/": "a4ec9e1f129106a31ce350ec737f34b0",
 "manifest.json": "cc37643c6153a8336fb9e40c45a8284c",
-"assets/fonts/MaterialIcons-Regular.ttf": "56d3ffdef7a25659eab6a68a3fbfaf16",
 "assets/FontManifest.json": "01700ba55b08a6141f33e168c4a6c22f",
-"assets/NOTICES": "e54526a80dfa9107777b327ccebea3ce",
+"assets/fonts/MaterialIcons-Regular.ttf": "56d3ffdef7a25659eab6a68a3fbfaf16",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "115e937bb829a890521f72d2e664b632",
 "assets/AssetManifest.json": "2efbb41d7877d10aac9d091f58ccd7b9",
-"icons/Icon-512.png": "6f0677aad7b319717e4967a335aa8cba",
-"icons/Icon-192.png": "89a01673abf5be880dec50d00f62c093",
-"index.html": "a4ec9e1f129106a31ce350ec737f34b0",
-"/": "a4ec9e1f129106a31ce350ec737f34b0"
+"assets/NOTICES": "b3e6f33a9eb34311c61eb748efee8e47"
 };
 
 // The application shell files that are downloaded before a service worker can
@@ -105,7 +105,7 @@ self.addEventListener("fetch", (event) => {
   if (event.request.url == origin || event.request.url.startsWith(origin + '/#')) {
     key = '/';
   }
-  // If the URL is not the the RESOURCE list, skip the cache.
+  // If the URL is not the RESOURCE list, skip the cache.
   if (!RESOURCES[key]) {
     return event.respondWith(fetch(event.request));
   }
@@ -128,11 +128,11 @@ self.addEventListener("fetch", (event) => {
 self.addEventListener('message', (event) => {
   // SkipWaiting can be used to immediately activate a waiting service worker.
   // This will also require a page refresh triggered by the main worker.
-  if (event.message == 'skipWaiting') {
+  if (event.data === 'skipWaiting') {
     return self.skipWaiting();
   }
 
-  if (event.message = 'downloadOffline') {
+  if (event.message === 'downloadOffline') {
     downloadOffline();
   }
 });
@@ -152,8 +152,8 @@ async function downloadOffline() {
   }
   for (var resourceKey in Object.keys(RESOURCES)) {
     if (!currentContent[resourceKey]) {
-      resources.add(resourceKey);
+      resources.push(resourceKey);
     }
   }
-  return Cache.addAll(resources);
+  return contentCache.addAll(resources);
 }
